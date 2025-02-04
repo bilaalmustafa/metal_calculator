@@ -22,10 +22,11 @@ customTextField1(
             suffixIcon: unitList.length >
                     1 // Show dropdown only if multiple units exist
                 ? Container(
-                    width: 70,
-                    height: 40,
+                    width: 100,
+                    // height: 30,
+                    margin: EdgeInsets.all(1),
                     decoration: BoxDecoration(
-                      color: AppColors.hintsTextColor,
+                      color: AppColors.contentColorYellow,
                       borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(5),
                         bottomRight: Radius.circular(5),
@@ -33,6 +34,9 @@ customTextField1(
                     ),
                     child: Center(
                       child: DropdownButton<String>(
+                        isDense: true, // Reduces internal padding
+                        isExpanded: false, // Prevents full-width stretching
+
                         underline: const SizedBox(),
                         value: unit,
                         items: unitList.map((String unit) {
@@ -46,15 +50,15 @@ customTextField1(
                     ),
                   )
                 : Container(
+                    margin: EdgeInsets.all(1),
                     decoration: BoxDecoration(
-                      color: AppColors.hintsTextColor,
+                      color: AppColors.contentColorYellow,
                       borderRadius: BorderRadius.only(
                         topRight: Radius.circular(5),
                         bottomRight: Radius.circular(5),
                       ),
                     ),
-                    width: 70,
-                    height: 40,
+                    width: 100,
                     child: Center(
                       child: Text(
                         text,
