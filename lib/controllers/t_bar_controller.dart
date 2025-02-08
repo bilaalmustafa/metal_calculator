@@ -1,12 +1,14 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-class HexagonController extends ChangeNotifier {
+class TBarController extends ChangeNotifier {
   int _selectedIndex = 0;
   String selectedMaterial = "Steel";
   String selectedUnitWidth = "mm";
   String selectedUnitLength = "mm";
 
-  TextEditingController widthController = TextEditingController();
+  TextEditingController sideAController = TextEditingController();
+  TextEditingController sideBController = TextEditingController();
+  TextEditingController thicknessController = TextEditingController();
   TextEditingController lengthController = TextEditingController();
   TextEditingController piecesController = TextEditingController();
   TextEditingController weightController = TextEditingController();

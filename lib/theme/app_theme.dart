@@ -38,7 +38,10 @@ class AppColors {
   static Color contentColorCyan = const Color(0xFF50E4FF);
 
   static LinearGradient buttonGradient = LinearGradient(
-    colors: [buttonColor2, buttonColor1],
+    colors: [contentColorCyan, containerColor],
+  );
+  static LinearGradient buttonGradient1 = LinearGradient(
+    colors: [containerColor, contentColorCyan],
   );
 
   static LinearGradient primaryGradient = const LinearGradient(
@@ -111,7 +114,7 @@ class AppTextStyles {
   );
 
   static final TextStyle titleSmall = GoogleFonts.montserrat(
-    fontSize: 14.0,
+    fontSize: 11.0,
     color: AppColors.mainTextColor1,
     fontWeight: FontWeight.bold,
   );

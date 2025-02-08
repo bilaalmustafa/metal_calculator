@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import '../controllers/round_bar_controller.dart';
+import '../controllers/square_bar_controller.dart';
 import '../widgets/add_item_dialog_box.dart';
 import '../widgets/back_icon_container.dart';
 import '../widgets/custom_calculate_row.dart';
@@ -11,26 +11,26 @@ import '../widgets/custom_text_field2.dart';
 import '../widgets/custom_toggle_button.dart';
 import '../widgets/image_container_widget.dart';
 
-class RoundBarScreen extends StatefulWidget {
-  const RoundBarScreen({super.key});
+class SquareBarScreen extends StatefulWidget {
+  const SquareBarScreen({super.key});
 
   @override
-  State<RoundBarScreen> createState() => _RoundBarScreenState();
+  State<SquareBarScreen> createState() => _SquareBarScreenState();
 }
 
-class _RoundBarScreenState extends State<RoundBarScreen> {
-  late RoundBarController roundBarController;
+class _SquareBarScreenState extends State<SquareBarScreen> {
+  late SquareBarController squareBarController;
   double steel = 7.85; // Default for steel
 
   @override
   Widget build(BuildContext context) {
-    roundBarController = Provider.of<RoundBarController>(context);
+    squareBarController = Provider.of<SquareBarController>(context);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: const Color(0xFFF2F5F9),
       appBar: AppBar(
         leading: BackIcon(),
-        title: const Text("Round Bar Calculator"),
+        title: const Text("Square Bar Calculator"),
         backgroundColor: const Color(0xFFF2F5F9),
       ),
       body: SingleChildScrollView(
@@ -65,7 +65,7 @@ class _RoundBarScreenState extends State<RoundBarScreen> {
                                   ),
                                 ),
                               ),
-                              value: roundBarController.selectedMaterial,
+                              value: squareBarController.selectedMaterial,
                               items: [
                                 "Steel",
                                 "Aluminum",
@@ -98,7 +98,7 @@ class _RoundBarScreenState extends State<RoundBarScreen> {
                               onChanged: (value) {
                                 setState(
                                   () {
-                                    roundBarController.selectedMaterial =
+                                    squareBarController.selectedMaterial =
                                         value!;
                                     // Adjust density based on material
                                     steel = {
@@ -138,13 +138,13 @@ class _RoundBarScreenState extends State<RoundBarScreen> {
                                   context: context,
                                   builder: (context) => AddMetalDialog(
                                     nameController:
-                                        roundBarController.nameController,
+                                        squareBarController.nameController,
                                     densityController:
-                                        roundBarController.densityController,
+                                        squareBarController.densityController,
                                     selectedUnitLength:
-                                        roundBarController.selectedUnitLength,
+                                        squareBarController.selectedUnitLength,
                                     onUnitChanged: (value) {
-                                      roundBarController.selectedUnitLength =
+                                      squareBarController.selectedUnitLength =
                                           value!;
                                     },
                                   ),
@@ -158,9 +158,9 @@ class _RoundBarScreenState extends State<RoundBarScreen> {
                         child: CustomToggleButton(
                           options: const ["by Length", "by Weight"],
                           onChanged: (int index) {
-                            roundBarController.setSelectedIndex(index);
+                            squareBarController.setSelectedIndex(index);
                           },
-                          selectedIndex: roundBarController.selectedIndex,
+                          selectedIndex: squareBarController.selectedIndex,
                         ),
                       ),
                       SizedBox(height: 6),
@@ -180,17 +180,17 @@ class _RoundBarScreenState extends State<RoundBarScreen> {
                 ],
               ),
               SizedBox(height: 20),
-              Consumer<RoundBarController>(
+              Consumer<SquareBarController>(
                 builder: (context, controller, _) {
                   final isLengthWeight = controller.selectedIndex == 0;
                   return Column(
                     children: [
                       customTextField1(
-                        "Diameter (D):",
-                        roundBarController.diameterController,
-                        roundBarController.selectedUnitWidth,
+                        "Side (A):",
+                        squareBarController.sideController,
+                        squareBarController.selectedUnitWidth,
                         (value) {
-                          roundBarController.selectedUnitWidth = value!;
+                          squareBarController.selectedUnitWidth = value!;
                         },
                         ["mm", "cm", "in", "ft"],
                         "",
@@ -198,35 +198,31 @@ class _RoundBarScreenState extends State<RoundBarScreen> {
                       isLengthWeight
                           ? customTextField1(
                               "Length",
-                              roundBarController.lengthController,
-                              roundBarController.selectedUnitLength,
+                              squareBarController.lengthController,
+                              squareBarController.selectedUnitLength,
                               (value) {
-                                roundBarController.selectedUnitLength = value!;
+                                squareBarController.selectedUnitLength = value!;
                               },
                               ["mm", "cm", "meter"],
                               "",
                             )
                           : customTextField1(
-                              "Width",
-                              roundBarController.weightController,
-                              roundBarController.selectedUnitLength,
+                              "Weight:",
+                              squareBarController.weightController,
+                              squareBarController.selectedUnitLength,
                               (value) {
-                                roundBarController.selectedUnitLength = value!;
+                                squareBarController.selectedUnitLength = value!;
                               },
                               ["mm"],
                               "Kg",
                             ),
                       customTextField2(
-                          "Pieces:", roundBarController.piecesController),
-
+                          "Pieces:", squareBarController.piecesController),
                       isLengthWeight
                           ? customTextField2(
-                              "Kg Price:", roundBarController.priceController)
+                              "Kg Price:", squareBarController.priceController)
                           : SizedBox(),
-
                       const SizedBox(height: 10),
-
-                      // Results Display
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(10),

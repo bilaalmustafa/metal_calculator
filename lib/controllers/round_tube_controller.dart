@@ -1,14 +1,15 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-class HexagonController extends ChangeNotifier {
+class RoundTubeController extends ChangeNotifier {
   int _selectedIndex = 0;
   String selectedMaterial = "Steel";
   String selectedUnitWidth = "mm";
   String selectedUnitLength = "mm";
 
-  TextEditingController widthController = TextEditingController();
+  TextEditingController diameterController = TextEditingController();
   TextEditingController lengthController = TextEditingController();
   TextEditingController piecesController = TextEditingController();
+  TextEditingController thicknessController = TextEditingController();
   TextEditingController weightController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController nameController = TextEditingController();

@@ -6,9 +6,10 @@ class RoundBarController extends ChangeNotifier {
   String selectedUnitWidth = "mm";
   String selectedUnitLength = "mm";
 
-  TextEditingController widthController = TextEditingController();
+  TextEditingController diameterController = TextEditingController();
   TextEditingController lengthController = TextEditingController();
   TextEditingController piecesController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController densityController = TextEditingController();

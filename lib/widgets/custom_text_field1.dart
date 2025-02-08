@@ -11,102 +11,149 @@ customTextField1(
 ) {
   return Builder(
     builder: (context) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5),
-        child: TextField(
-          controller: controller,
-          cursorColor: const Color.fromARGB(248, 44, 1, 1),
-          decoration: InputDecoration(
-            labelText: label,
-            floatingLabelAlignment: FloatingLabelAlignment.start,
-            suffixIcon: unitList.length >
-                    1 // Show dropdown only if multiple units exist
-                ? Container(
-                    width: 100,
-                    // height: 30,
-                    margin: EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                      color: AppColors.contentColorYellow,
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(5),
-                        bottomRight: Radius.circular(5),
+      return Container(
+        width: double.infinity,
+        margin: EdgeInsets.all(2),
+        height: 45,
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: const Color(0xFFF2F5F9), // Light background color
+          boxShadow: [
+            // Light shadow (top-left) for 3D effect
+            BoxShadow(
+              color: Color(0xffF2F9F9),
+              offset: const Offset(-4, -4),
+              blurRadius: 6,
+            ),
+            // Dark shadow (bottom-right) for depth
+            BoxShadow(
+              color: Color(0xffCCD8E1),
+              offset: const Offset(4, 4),
+              blurRadius: 6,
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Text(
+              label,
+              style: TextStyle(fontSize: 12),
+            ),
+            SizedBox(width: 20),
+            Expanded(
+              child: SizedBox(
+                height: 40,
+                child: TextField(
+                  controller: controller,
+                  keyboardType: TextInputType.number,
+                  cursorColor: const Color.fromARGB(248, 44, 1, 1),
+                  decoration: InputDecoration(
+                    hintText: '----',
+                    floatingLabelAlignment: FloatingLabelAlignment.start,
+                    suffixIcon: unitList.length >
+                            1 // Show dropdown only if multiple units exist
+                        ? GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              width: 90,
+                              decoration: BoxDecoration(
+                                color:
+                                    AppColors.contentColorCyan.withOpacity(0.8),
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    bottomRight: Radius.circular(10)),
+                              ),
+                              child: Center(
+                                child: DropdownButton<String>(
+                                  style: TextStyle(fontSize: 12),
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_down_outlined,
+                                    color: Colors.white,
+                                    size: 16,
+                                  ),
+                                  isDense: true, // Reduces internal padding
+                                  isExpanded:
+                                      false, // Prevents full-width stretching
+                                  underline: const SizedBox(),
+                                  dropdownColor: Colors.grey.shade200,
+                                  value: unit,
+                                  items: unitList.map((String unit) {
+                                    return DropdownMenuItem(
+                                      value: unit,
+                                      child: Text(unit),
+                                    );
+                                  }).toList(),
+                                  onChanged: onChanged,
+                                ),
+                              ),
+                            ),
+                          )
+                        : GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color:
+                                    AppColors.contentColorBlue.withOpacity(0.5),
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    bottomRight: Radius.circular(10)),
+                              ),
+                              width: 90,
+                              child: Center(
+                                child: Text(
+                                  text,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ), // Hide if only one unit
+                    contentPadding: const EdgeInsets.only(left: 10),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
                       ),
                     ),
-                    child: Center(
-                      child: DropdownButton<String>(
-                        isDense: true, // Reduces internal padding
-                        isExpanded: false, // Prevents full-width stretching
-
-                        underline: const SizedBox(),
-                        value: unit,
-                        items: unitList.map((String unit) {
-                          return DropdownMenuItem(
-                            value: unit,
-                            child: Text(unit),
-                          );
-                        }).toList(),
-                        onChanged: onChanged,
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white70,
+                        width: 1.0,
                       ),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  )
-                : Container(
-                    margin: EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                      color: AppColors.contentColorYellow,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(5),
-                        bottomRight: Radius.circular(5),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.red,
+                        width: 1.0,
                       ),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    width: 100,
-                    child: Center(
-                      child: Text(
-                        text,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white70,
+                        width: 1.0,
                       ),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  ), // Hide if only one unit
-            contentPadding: const EdgeInsets.only(left: 10),
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(5.0),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.red,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    errorStyle: AppTextStyles.bodySmall.copyWith(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
               ),
             ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Colors.black,
-                width: 1.0,
-              ),
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Colors.red,
-                width: 1.0,
-              ),
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Colors.black26,
-                width: 1.0,
-              ),
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Colors.red,
-                width: 1.0,
-              ),
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            errorStyle: AppTextStyles.bodySmall.copyWith(
-              color: Colors.red,
-            ),
-          ),
+          ],
         ),
       );
     },

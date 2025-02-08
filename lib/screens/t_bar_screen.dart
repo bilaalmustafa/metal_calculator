@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import '../controllers/round_bar_controller.dart';
+import '../controllers/t_bar_controller.dart';
 import '../widgets/add_item_dialog_box.dart';
 import '../widgets/back_icon_container.dart';
 import '../widgets/custom_calculate_row.dart';
@@ -11,26 +11,26 @@ import '../widgets/custom_text_field2.dart';
 import '../widgets/custom_toggle_button.dart';
 import '../widgets/image_container_widget.dart';
 
-class RoundBarScreen extends StatefulWidget {
-  const RoundBarScreen({super.key});
+class TBarScreen extends StatefulWidget {
+  const TBarScreen({super.key});
 
   @override
-  State<RoundBarScreen> createState() => _RoundBarScreenState();
+  State<TBarScreen> createState() => _TBarScreenState();
 }
 
-class _RoundBarScreenState extends State<RoundBarScreen> {
-  late RoundBarController roundBarController;
+class _TBarScreenState extends State<TBarScreen> {
+  late TBarController tBarController;
   double steel = 7.85; // Default for steel
 
   @override
   Widget build(BuildContext context) {
-    roundBarController = Provider.of<RoundBarController>(context);
+    tBarController = Provider.of<TBarController>(context);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: const Color(0xFFF2F5F9),
       appBar: AppBar(
         leading: BackIcon(),
-        title: const Text("Round Bar Calculator"),
+        title: const Text("T Bar Calculator"),
         backgroundColor: const Color(0xFFF2F5F9),
       ),
       body: SingleChildScrollView(
@@ -41,7 +41,7 @@ class _RoundBarScreenState extends State<RoundBarScreen> {
             children: [
               Row(
                 children: [
-                  ImageContainer(image: 'assets/icons/hexagon.png'),
+                  ImageContainer(image: 'assets/icons/tbar.png'),
                   SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +65,7 @@ class _RoundBarScreenState extends State<RoundBarScreen> {
                                   ),
                                 ),
                               ),
-                              value: roundBarController.selectedMaterial,
+                              value: tBarController.selectedMaterial,
                               items: [
                                 "Steel",
                                 "Aluminum",
@@ -98,8 +98,7 @@ class _RoundBarScreenState extends State<RoundBarScreen> {
                               onChanged: (value) {
                                 setState(
                                   () {
-                                    roundBarController.selectedMaterial =
-                                        value!;
+                                    tBarController.selectedMaterial = value!;
                                     // Adjust density based on material
                                     steel = {
                                           "Steel": 7.85,
@@ -138,13 +137,13 @@ class _RoundBarScreenState extends State<RoundBarScreen> {
                                   context: context,
                                   builder: (context) => AddMetalDialog(
                                     nameController:
-                                        roundBarController.nameController,
+                                        tBarController.nameController,
                                     densityController:
-                                        roundBarController.densityController,
+                                        tBarController.densityController,
                                     selectedUnitLength:
-                                        roundBarController.selectedUnitLength,
+                                        tBarController.selectedUnitLength,
                                     onUnitChanged: (value) {
-                                      roundBarController.selectedUnitLength =
+                                      tBarController.selectedUnitLength =
                                           value!;
                                     },
                                   ),
@@ -158,9 +157,9 @@ class _RoundBarScreenState extends State<RoundBarScreen> {
                         child: CustomToggleButton(
                           options: const ["by Length", "by Weight"],
                           onChanged: (int index) {
-                            roundBarController.setSelectedIndex(index);
+                            tBarController.setSelectedIndex(index);
                           },
-                          selectedIndex: roundBarController.selectedIndex,
+                          selectedIndex: tBarController.selectedIndex,
                         ),
                       ),
                       SizedBox(height: 6),
@@ -180,53 +179,69 @@ class _RoundBarScreenState extends State<RoundBarScreen> {
                 ],
               ),
               SizedBox(height: 20),
-              Consumer<RoundBarController>(
+              Consumer<TBarController>(
                 builder: (context, controller, _) {
                   final isLengthWeight = controller.selectedIndex == 0;
                   return Column(
                     children: [
                       customTextField1(
-                        "Diameter (D):",
-                        roundBarController.diameterController,
-                        roundBarController.selectedUnitWidth,
+                        "Side (A):",
+                        tBarController.sideAController,
+                        tBarController.selectedUnitWidth,
                         (value) {
-                          roundBarController.selectedUnitWidth = value!;
+                          tBarController.selectedUnitWidth = value!;
                         },
                         ["mm", "cm", "in", "ft"],
                         "",
                       ),
+                      customTextField1(
+                        "Side (B):",
+                        tBarController.sideBController,
+                        tBarController.selectedUnitWidth,
+                        (value) {
+                          tBarController.selectedUnitWidth = value!;
+                        },
+                        ["mm"],
+                        "mm",
+                      ),
+                      customTextField1(
+                        "Thickness(T):",
+                        tBarController.thicknessController,
+                        tBarController.selectedUnitLength,
+                        (value) {
+                          tBarController.selectedUnitLength = value!;
+                        },
+                        ["mm"],
+                        "mm",
+                      ),
                       isLengthWeight
                           ? customTextField1(
                               "Length",
-                              roundBarController.lengthController,
-                              roundBarController.selectedUnitLength,
+                              tBarController.lengthController,
+                              tBarController.selectedUnitLength,
                               (value) {
-                                roundBarController.selectedUnitLength = value!;
+                                tBarController.selectedUnitLength = value!;
                               },
                               ["mm", "cm", "meter"],
                               "",
                             )
                           : customTextField1(
-                              "Width",
-                              roundBarController.weightController,
-                              roundBarController.selectedUnitLength,
+                              "Weight:",
+                              tBarController.weightController,
+                              tBarController.selectedUnitLength,
                               (value) {
-                                roundBarController.selectedUnitLength = value!;
+                                tBarController.selectedUnitLength = value!;
                               },
                               ["mm"],
                               "Kg",
                             ),
                       customTextField2(
-                          "Pieces:", roundBarController.piecesController),
-
+                          "Pieces:", tBarController.piecesController),
                       isLengthWeight
                           ? customTextField2(
-                              "Kg Price:", roundBarController.priceController)
+                              "Kg Price:", tBarController.priceController)
                           : SizedBox(),
-
                       const SizedBox(height: 10),
-
-                      // Results Display
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(10),
