@@ -14,13 +14,11 @@ customTextField2(
       borderRadius: BorderRadius.circular(30),
       color: const Color(0xFFF2F5F9), // Light background color
       boxShadow: [
-        // Light shadow (top-left) for 3D effect
         BoxShadow(
           color: Color(0xffF2F9F9),
           offset: const Offset(-4, -4),
           blurRadius: 6,
         ),
-        // Dark shadow (bottom-right) for depth
         BoxShadow(
           color: Color(0xffCCD8E1),
           offset: const Offset(4, 4),

@@ -20,13 +20,11 @@ customTextField1(
           borderRadius: BorderRadius.circular(30),
           color: const Color(0xFFF2F5F9), // Light background color
           boxShadow: [
-            // Light shadow (top-left) for 3D effect
             BoxShadow(
               color: Color(0xffF2F9F9),
               offset: const Offset(-4, -4),
               blurRadius: 6,
             ),
-            // Dark shadow (bottom-right) for depth
             BoxShadow(
               color: Color(0xffCCD8E1),
               offset: const Offset(4, 4),
@@ -61,8 +59,9 @@ customTextField1(
                                 color:
                                     AppColors.contentColorCyan.withOpacity(0.8),
                                 borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    bottomRight: Radius.circular(10)),
+                                  topRight: Radius.circular(10),
+                                  bottomRight: Radius.circular(10),
+                                ),
                               ),
                               child: Center(
                                 child: DropdownButton<String>(
@@ -94,10 +93,11 @@ customTextField1(
                             child: Container(
                               decoration: BoxDecoration(
                                 color:
-                                    AppColors.contentColorBlue.withOpacity(0.5),
+                                    AppColors.contentColorCyan.withOpacity(0.8),
                                 borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    bottomRight: Radius.circular(10)),
+                                  topRight: Radius.circular(10),
+                                  bottomRight: Radius.circular(10),
+                                ),
                               ),
                               width: 90,
                               child: Center(

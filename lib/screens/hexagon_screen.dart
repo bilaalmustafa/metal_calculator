@@ -22,35 +22,11 @@ class _HexagonScreenState extends State<HexagonScreen> {
   late HexagonController hexagonController;
   double steel = 7.85; // Default for steel
 
-  final List<String> items = [
-    "Steel",
-    "Aluminum",
-    "Brass",
-    "Copper",
-    "Bronze",
-    "Zinc",
-    "Chromium",
-    "Lead",
-    "Iron",
-    "Gold",
-    "Magnesium",
-    "Nickel",
-    "Titanium",
-    "Tin",
-    "Teflon",
-    "Silver",
-    "Platinum",
-    "SS 304/310",
-    "SS 316/321",
-    "SS 410/430",
-    "Zirconium",
-    "Molybdenum"
-  ];
-
   @override
   Widget build(BuildContext context) {
     hexagonController = Provider.of<HexagonController>(context);
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF2F5F9),
       appBar: AppBar(
@@ -58,81 +34,83 @@ class _HexagonScreenState extends State<HexagonScreen> {
         title: const Text("Hexagon Calculator"),
         backgroundColor: const Color(0xFFF2F5F9),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  ImageContainer(image: 'assets/icons/hexagon.png'),
-                  SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: size.width * 0.45,
-                            height: size.height * 0.08,
-                            child: DropdownButtonFormField<String>(
-                              icon: Icon(Icons.keyboard_arrow_down),
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(15),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    ImageContainer(image: 'assets/icons/hexagon.png'),
+                    SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: size.width * 0.45,
+                              height: size.height * 0.08,
+                              child: DropdownButtonFormField<String>(
+                                icon: Icon(Icons.keyboard_arrow_down),
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15),
+                                    ),
                                   ),
                                 ),
+                                value: hexagonController.selectedMaterial,
+                                items: hexagonController.items
+                                    .map((String material) {
+                                  return DropdownMenuItem(
+                                    value: material,
+                                    child: Text(material),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(
+                                    () {
+                                      hexagonController.selectedMaterial =
+                                          value!;
+                                      steel = {
+                                            "Steel": 7.85,
+                                            "Aluminum": 2.73,
+                                            "Brass": 8.5,
+                                            "Copper": 8.96,
+                                            "Bronze": 8.7,
+                                            "Zinc": 7.14,
+                                            "Chromium": 7.19,
+                                            "Lead": 11.34,
+                                            "Iron": 7.87,
+                                            "Gold": 19.32,
+                                            "Magnesium": 1.74,
+                                            "Nickel": 8.9,
+                                            "Titanium": 4.5,
+                                            "Tin": 7.3,
+                                            "Teflon": 2.2,
+                                            "Silver": 10.49,
+                                            "Platinum": 21.45,
+                                            "SS 304/310": 7.9,
+                                            "SS 316/321": 8.0,
+                                            "SS 410/430": 7.7,
+                                            "Zirconium": 6.49,
+                                            "Molybdenum": 10.2,
+                                          }[value] ??
+                                          0.0;
+                                    },
+                                  );
+                                },
                               ),
-                              value: hexagonController.selectedMaterial,
-                              items: items.map((String material) {
-                                return DropdownMenuItem(
-                                  value: material,
-                                  child: Text(material),
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                setState(
-                                  () {
-                                    hexagonController.selectedMaterial = value!;
-                                    // Adjust density based on material
-                                    steel = {
-                                          "Steel": 7.85,
-                                          "Aluminum": 2.73,
-                                          "Brass": 8.5,
-                                          "Copper": 8.96,
-                                          "Bronze": 8.7,
-                                          "Zinc": 7.14,
-                                          "Chromium": 7.19,
-                                          "Lead": 11.34,
-                                          "Iron": 7.87,
-                                          "Gold": 19.32,
-                                          "Magnesium": 1.74,
-                                          "Nickel": 8.9,
-                                          "Titanium": 4.5,
-                                          "Tin": 7.3,
-                                          "Teflon": 2.2,
-                                          "Silver": 10.49,
-                                          "Platinum": 21.45,
-                                          "SS 304/310": 7.9,
-                                          "SS 316/321": 8.0,
-                                          "SS 410/430": 7.7,
-                                          "Zirconium": 6.49,
-                                          "Molybdenum": 10.2,
-                                        }[value] ??
-                                        0.0;
-                                  },
-                                );
-                              },
                             ),
-                          ),
-                          SizedBox(width: 10),
-                          GestureDetector(
+                            SizedBox(width: 10),
+                            GestureDetector(
                               onTap: () {
                                 showDialog(
                                   context: context,
@@ -150,174 +128,164 @@ class _HexagonScreenState extends State<HexagonScreen> {
                                   ),
                                 );
                               },
-                              child: Image.asset('assets/images/icon.png')),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 35,
-                        child: CustomToggleButton(
-                          options: const ["by Length", "by Weight"],
-                          onChanged: (int index) {
-                            hexagonController.setSelectedIndex(index);
+                              child: Image.asset('assets/images/icon.png'),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 35,
+                          child: CustomToggleButton(
+                            options: const ["by Length", "by Weight"],
+                            onChanged: (int index) {
+                              hexagonController.setSelectedIndex(index);
+                            },
+                            selectedIndex: hexagonController.selectedIndex,
+                          ),
+                        ),
+                        SizedBox(height: 6),
+                        Container(
+                          height: 40,
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.grey.shade600),
+                          ),
+                          child: Text(
+                            "${steel.toStringAsFixed(2)} gr/cm³",
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Consumer<HexagonController>(
+                  builder: (context, controller, _) {
+                    final isLengthWeight = controller.selectedIndex == 0;
+                    return Column(
+                      children: [
+                        customTextField1(
+                          "Width (A):",
+                          hexagonController.widthController,
+                          hexagonController.selectedUnitWidth,
+                          (value) {
+                            hexagonController.selectedUnitWidth = value!;
                           },
-                          selectedIndex: hexagonController.selectedIndex,
+                          ["mm", "cm", "in", "ft"],
+                          "",
                         ),
-                      ),
-                      SizedBox(height: 6),
-                      Container(
-                        height: 40,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey.shade600),
-                        ),
-                        child: Text(
-                          "${steel.toStringAsFixed(2)} gr/cm³",
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Consumer<HexagonController>(
-                builder: (context, controller, _) {
-                  final isLengthWeight = controller.selectedIndex == 0;
-                  return Column(
-                    children: [
-                      customTextField1(
-                        "Width (A):",
-                        hexagonController.widthController,
-                        hexagonController.selectedUnitWidth,
-                        (value) {
-                          hexagonController.selectedUnitWidth = value!;
-                        },
-                        ["mm", "cm", "in", "ft"],
-                        "",
-                      ),
-                      isLengthWeight
-                          ? customTextField1(
-                              "Length",
-                              hexagonController.lengthController,
-                              hexagonController.selectedUnitLength,
-                              (value) {
-                                hexagonController.selectedUnitLength = value!;
-                              },
-                              ["mm", "cm", "meter"],
-                              "",
-                            )
-                          : customTextField1(
-                              "Width",
-                              hexagonController.weightController,
-                              hexagonController.selectedUnitLength,
-                              (value) {
-                                hexagonController.selectedUnitLength = value!;
-                              },
-                              ["mm"],
-                              "Kg",
-                            ),
-                      customTextField2(
-                          "Pieces:", hexagonController.piecesController),
-                      isLengthWeight
-                          ? customTextField2(
-                              "Kg Price:", hexagonController.priceController)
-                          : SizedBox(),
-                      const SizedBox(height: 10),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color:
-                              const Color(0xFFF2F5F9), // Light background color
-                          boxShadow: [
-                            // Light shadow (top-left) for 3D effect
-                            BoxShadow(
-                              color: Color(0xffF2F9F9),
-                              offset: const Offset(-4, -4),
-                              blurRadius: 6,
-                            ),
-                            // Dark shadow (bottom-right) for depth
-                            BoxShadow(
-                              color: Color(0xffCCD8E1),
-                              offset: const Offset(4, 4),
-                              blurRadius: 6,
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Results:",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                        isLengthWeight
+                            ? customTextField1(
+                                "Length",
+                                hexagonController.lengthController,
+                                hexagonController.selectedUnitLength,
+                                (value) {
+                                  hexagonController.selectedUnitLength = value!;
+                                },
+                                ["mm", "cm", "meter"],
+                                "",
+                              )
+                            : customTextField1(
+                                "Width",
+                                hexagonController.weightController,
+                                hexagonController.selectedUnitLength,
+                                (value) {
+                                  hexagonController.selectedUnitLength = value!;
+                                },
+                                ["mm"],
+                                "Kg",
                               ),
-                            ),
-                            SizedBox(height: 20),
-                            Row(
-                              children: [
-                                const Text(
-                                  "Weight:",
-                                  style: TextStyle(fontSize: 16),
+                        customTextField2(
+                            "Pieces:", hexagonController.piecesController),
+                        isLengthWeight
+                            ? customTextField2(
+                                "Kg Price:", hexagonController.priceController)
+                            : SizedBox(),
+                        const SizedBox(height: 10),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: const Color(0xFFF2F5F9),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color(0xffF2F9F9),
+                                offset: const Offset(-4, -4),
+                                blurRadius: 6,
+                              ),
+                              BoxShadow(
+                                color: Color(0xffCCD8E1),
+                                offset: const Offset(4, 4),
+                                blurRadius: 6,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Results:",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                const Text(
-                                  "12345",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const Text(
-                                  "Total Weight:",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                const Text(
-                                  "12345",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const Text(
-                                  "Total Price:",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                const Text(
-                                  "12345",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                              ),
+                              SizedBox(height: 20),
+                              Row(
+                                children: [
+                                  const Text("Weight:",
+                                      style: TextStyle(fontSize: 16)),
+                                  const Text("12345",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  const Text("Total Weight:",
+                                      style: TextStyle(fontSize: 16)),
+                                  const Text("12345",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  const Text("Total Price:",
+                                      style: TextStyle(fontSize: 16)),
+                                  const Text("12345",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(height: 20),
-              CalculateRow(
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
+              child: CalculateRow(
                 shareOnTap: () => Share.share('text'),
                 copyOnTap: () => Clipboard.setData(ClipboardData(text: "text")),
                 calculatorOnTap: () {},
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

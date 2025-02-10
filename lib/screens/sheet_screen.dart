@@ -33,286 +33,271 @@ class _SheetScreenState extends State<SheetScreen> {
         title: const Text("Sheet Calculator"),
         backgroundColor: const Color(0xFFF2F5F9),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ImageContainer(image: 'assets/icons/hexagon.png'),
-                  SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
-                      Row(
+                      ImageContainer(image: 'assets/icons/square_bar.png'),
+                      SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            width: size.width * 0.45,
-                            height: size.height * 0.08,
-                            child: DropdownButtonFormField<String>(
-                              icon: Icon(Icons.keyboard_arrow_down),
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(20),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: size.width * 0.45,
+                                height: size.height * 0.08,
+                                child: DropdownButtonFormField<String>(
+                                  icon: Icon(Icons.keyboard_arrow_down),
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(20),
+                                      ),
+                                    ),
                                   ),
+                                  value: sheetController.selectedMaterial,
+                                  items: sheetController.items
+                                      .map((String material) {
+                                    return DropdownMenuItem(
+                                      value: material,
+                                      child: Text(material),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(
+                                      () {
+                                        sheetController.selectedMaterial =
+                                            value!;
+                                        // Adjust density based on material
+                                        steel = {
+                                              "Steel": 7.85,
+                                              "Aluminum": 2.73,
+                                              "Brass": 8.5,
+                                              "Copper": 8.96,
+                                              "Bronze": 8.7,
+                                              "Zinc": 7.14,
+                                              "Chromium": 7.19,
+                                              "Lead": 11.34,
+                                              "Iron": 7.87,
+                                              "Gold": 19.32,
+                                              "Magnesium": 1.74,
+                                              "Nickel": 8.9,
+                                              "Titanium": 4.5,
+                                              "Tin": 7.3,
+                                              "Teflon": 2.2,
+                                              "Silver": 10.49,
+                                              "Platinum": 21.45,
+                                              "SS 304/310": 7.9,
+                                              "SS 316/321": 8.0,
+                                              "SS 410/430": 7.7,
+                                              "Zirconium": 6.49,
+                                              "Molybdenum": 10.2,
+                                            }[value] ??
+                                            0.0;
+                                      },
+                                    );
+                                  },
                                 ),
                               ),
-                              value: sheetController.selectedMaterial,
-                              items: [
-                                "Steel",
-                                "Aluminum",
-                                "Brass",
-                                "Copper",
-                                "Bronze",
-                                "Zinc",
-                                "Chromium",
-                                "Lead",
-                                "Iron",
-                                "Gold",
-                                "Magnesium",
-                                "Nickel",
-                                "Titanium",
-                                "Tin",
-                                "Teflon",
-                                "Silver",
-                                "Platinum",
-                                "SS 304/310",
-                                "SS 316/321",
-                                "SS 410/430",
-                                "Zirconium",
-                                "Molybdenum"
-                              ].map((String material) {
-                                return DropdownMenuItem(
-                                  value: material,
-                                  child: Text(material),
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                setState(
-                                  () {
-                                    sheetController.selectedMaterial = value!;
-                                    // Adjust density based on material
-                                    steel = {
-                                          "Steel": 7.85,
-                                          "Aluminum": 2.73,
-                                          "Brass": 8.5,
-                                          "Copper": 8.96,
-                                          "Bronze": 8.7,
-                                          "Zinc": 7.14,
-                                          "Chromium": 7.19,
-                                          "Lead": 11.34,
-                                          "Iron": 7.87,
-                                          "Gold": 19.32,
-                                          "Magnesium": 1.74,
-                                          "Nickel": 8.9,
-                                          "Titanium": 4.5,
-                                          "Tin": 7.3,
-                                          "Teflon": 2.2,
-                                          "Silver": 10.49,
-                                          "Platinum": 21.45,
-                                          "SS 304/310": 7.9,
-                                          "SS 316/321": 8.0,
-                                          "SS 410/430": 7.7,
-                                          "Zirconium": 6.49,
-                                          "Molybdenum": 10.2,
-                                        }[value] ??
-                                        0.0;
+                              SizedBox(width: 10),
+                              GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AddMetalDialog(
+                                        nameController:
+                                            sheetController.nameController,
+                                        densityController:
+                                            sheetController.densityController,
+                                        selectedUnitLength:
+                                            sheetController.selectedUnitLength,
+                                        onUnitChanged: (value) {
+                                          sheetController.selectedUnitLength =
+                                              value!;
+                                        },
+                                      ),
+                                    );
                                   },
-                                );
+                                  child: Image.asset('assets/images/icon.png')),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 35,
+                            child: CustomToggleButton(
+                              options: const ["by Length", "by Weight"],
+                              onChanged: (int index) {
+                                sheetController.setSelectedIndex(index);
                               },
+                              selectedIndex: sheetController.selectedIndex,
                             ),
                           ),
-                          SizedBox(width: 10),
-                          GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AddMetalDialog(
-                                    nameController:
-                                        sheetController.nameController,
-                                    densityController:
-                                        sheetController.densityController,
-                                    selectedUnitLength:
-                                        sheetController.selectedUnitLength,
-                                    onUnitChanged: (value) {
-                                      sheetController.selectedUnitLength =
-                                          value!;
-                                    },
-                                  ),
-                                );
-                              },
-                              child: Image.asset('assets/images/icon.png')),
+                          SizedBox(height: 6),
+                          Container(
+                            height: 40,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border:
+                                    Border.all(color: Colors.grey.shade400)),
+                            child: Text(
+                              "${steel.toStringAsFixed(2)} gr/cm³",
+                              style: const TextStyle(fontSize: 14),
+                            ),
+                          ),
                         ],
-                      ),
-                      SizedBox(
-                        height: 35,
-                        child: CustomToggleButton(
-                          options: const ["by Length", "by Weight"],
-                          onChanged: (int index) {
-                            sheetController.setSelectedIndex(index);
-                          },
-                          selectedIndex: sheetController.selectedIndex,
-                        ),
-                      ),
-                      SizedBox(height: 6),
-                      Container(
-                        height: 40,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.grey.shade400)),
-                        child: Text(
-                          "${steel.toStringAsFixed(2)} gr/cm³",
-                          style: const TextStyle(fontSize: 14),
-                        ),
                       ),
                     ],
                   ),
+                  SizedBox(height: 20),
+                  Consumer<SheetController>(
+                    builder: (context, controller, _) {
+                      final isLengthWeight = controller.selectedIndex == 0;
+                      return Column(
+                        children: [
+                          customTextField1(
+                            "Side (A):",
+                            sheetController.sideAController,
+                            sheetController.selectedUnitWidth,
+                            (value) {
+                              sheetController.selectedUnitWidth = value!;
+                            },
+                            ["mm", "cm", "in", "ft"],
+                            "",
+                          ),
+                          customTextField1(
+                            "Side (B):",
+                            sheetController.sideBController,
+                            sheetController.selectedUnitWidth,
+                            (value) {
+                              sheetController.selectedUnitWidth = value!;
+                            },
+                            ["mm"],
+                            "mm",
+                          ),
+                          isLengthWeight
+                              ? customTextField1(
+                                  "Thickness(T):",
+                                  sheetController.thicknessController,
+                                  sheetController.selectedUnitLength,
+                                  (value) {
+                                    sheetController.selectedUnitLength = value!;
+                                  },
+                                  ["mm", "cm", "meter"],
+                                  "",
+                                )
+                              : customTextField1(
+                                  "Weight:",
+                                  sheetController.weightController,
+                                  sheetController.selectedUnitLength,
+                                  (value) {
+                                    sheetController.selectedUnitLength = value!;
+                                  },
+                                  ["mm"],
+                                  "Kg",
+                                ),
+                          customTextField2(
+                              "Pieces:", sheetController.piecesController),
+                          isLengthWeight
+                              ? customTextField2(
+                                  "Kg Price:", sheetController.priceController)
+                              : SizedBox(),
+                          const SizedBox(height: 10),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: const Color(0xFFF2F5F9),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0xffF2F9F9),
+                                  offset: const Offset(-4, -4),
+                                  blurRadius: 6,
+                                ),
+                                BoxShadow(
+                                  color: Color(0xffCCD8E1),
+                                  offset: const Offset(4, 4),
+                                  blurRadius: 6,
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Results:",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  children: [
+                                    const Text("Weight:",
+                                        style: TextStyle(fontSize: 16)),
+                                    const Text("12345",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const Text("Total Weight:",
+                                        style: TextStyle(fontSize: 16)),
+                                    const Text("12345",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const Text("Total Price:",
+                                        style: TextStyle(fontSize: 16)),
+                                    const Text("12345",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ],
               ),
-              SizedBox(height: 20),
-              Consumer<SheetController>(
-                builder: (context, controller, _) {
-                  final isLengthWeight = controller.selectedIndex == 0;
-                  return Column(
-                    children: [
-                      customTextField1(
-                        "Side (A):",
-                        sheetController.sideAController,
-                        sheetController.selectedUnitWidth,
-                        (value) {
-                          sheetController.selectedUnitWidth = value!;
-                        },
-                        ["mm", "cm", "in", "ft"],
-                        "",
-                      ),
-                      customTextField1(
-                        "Side (B):",
-                        sheetController.sideBController,
-                        sheetController.selectedUnitWidth,
-                        (value) {
-                          sheetController.selectedUnitWidth = value!;
-                        },
-                        ["mm"],
-                        "mm",
-                      ),
-                      isLengthWeight
-                          ? customTextField1(
-                              "Thickness(T):",
-                              sheetController.thicknessController,
-                              sheetController.selectedUnitLength,
-                              (value) {
-                                sheetController.selectedUnitLength = value!;
-                              },
-                              ["mm", "cm", "meter"],
-                              "",
-                            )
-                          : customTextField1(
-                              "Weight:",
-                              sheetController.weightController,
-                              sheetController.selectedUnitLength,
-                              (value) {
-                                sheetController.selectedUnitLength = value!;
-                              },
-                              ["mm"],
-                              "Kg",
-                            ),
-                      customTextField2(
-                          "Pieces:", sheetController.piecesController),
-                      isLengthWeight
-                          ? customTextField2(
-                              "Kg Price:", sheetController.priceController)
-                          : SizedBox(),
-                      const SizedBox(height: 10),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.grey,
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Results:",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            Row(
-                              children: [
-                                const Text(
-                                  "Weight:",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                const Text(
-                                  "12345",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const Text(
-                                  "Total Weight:",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                const Text(
-                                  "12345",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const Text(
-                                  "Total Price:",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                const Text(
-                                  "12345",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              CalculateRow(
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
+              child: CalculateRow(
                 shareOnTap: () => Share.share('text'),
                 copyOnTap: () => Clipboard.setData(ClipboardData(text: "text")),
                 calculatorOnTap: () {},
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

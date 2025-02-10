@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:metal_calculator/screens/hexagon_screen.dart';
 import 'package:provider/provider.dart';
 import 'controllers/angle_controller.dart';
 import 'controllers/beams_controller.dart';
@@ -12,6 +11,7 @@ import 'controllers/square_bar_controller.dart';
 import 'controllers/square_tube_controller.dart';
 import 'controllers/hexagon_controller.dart';
 import 'controllers/t_bar_controller.dart';
+import 'screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,9 +38,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => TBarController()),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        home: HexagonScreen(),
+        home: SplashScreen(),
       ),
     );
   }

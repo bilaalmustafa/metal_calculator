@@ -15,6 +15,30 @@ class SquareBarController extends ChangeNotifier {
   TextEditingController densityController = TextEditingController();
 
   int get selectedIndex => _selectedIndex;
+  final List<String> items = [
+    "Steel",
+    "Aluminum",
+    "Brass",
+    "Copper",
+    "Bronze",
+    "Zinc",
+    "Chromium",
+    "Lead",
+    "Iron",
+    "Gold",
+    "Magnesium",
+    "Nickel",
+    "Titanium",
+    "Tin",
+    "Teflon",
+    "Silver",
+    "Platinum",
+    "SS 304/310",
+    "SS 316/321",
+    "SS 410/430",
+    "Zirconium",
+    "Molybdenum"
+  ];
 
   void setSelectedIndex(int index) {
     if (index != _selectedIndex) {
