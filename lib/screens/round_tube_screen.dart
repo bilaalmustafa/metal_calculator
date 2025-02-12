@@ -296,7 +296,7 @@ class _RoundTubeScreenState extends State<RoundTubeScreen> {
               child: CalculateRow(
                 shareOnTap: () => Share.share('text'),
                 copyOnTap: () => Clipboard.setData(ClipboardData(text: "text")),
-                calculatorOnTap: () {},
+                calculateOnTap: () {},
               ),
             ),
           ),

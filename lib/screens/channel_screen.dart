@@ -645,7 +645,7 @@ class _ChannelScreenState extends State<ChannelScreen> {
               child: CalculateRow(
                 shareOnTap: () => Share.share('text'),
                 copyOnTap: () => Clipboard.setData(ClipboardData(text: "text")),
-                calculatorOnTap: () {},
+                calculateOnTap: () {},
               ),
             ),
           ),

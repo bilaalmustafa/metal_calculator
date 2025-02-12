@@ -1010,7 +1010,7 @@ class _BeamsScreenState extends State<BeamsScreen> {
               child: CalculateRow(
                 shareOnTap: () => Share.share('text'),
                 copyOnTap: () => Clipboard.setData(ClipboardData(text: "text")),
-                calculatorOnTap: () {},
+                calculateOnTap: () {},
               ),
             ),
           ),

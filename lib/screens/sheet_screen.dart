@@ -293,7 +293,7 @@ class _SheetScreenState extends State<SheetScreen> {
               child: CalculateRow(
                 shareOnTap: () => Share.share('text'),
                 copyOnTap: () => Clipboard.setData(ClipboardData(text: "text")),
-                calculatorOnTap: () {},
+                calculateOnTap: () {},
               ),
             ),
           ),

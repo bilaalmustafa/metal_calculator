@@ -327,7 +327,7 @@ class _SquareTubeScreenState extends State<SquareTubeScreen> {
               child: CalculateRow(
                 shareOnTap: () => Share.share('text'),
                 copyOnTap: () => Clipboard.setData(ClipboardData(text: "text")),
-                calculatorOnTap: () {},
+                calculateOnTap: () {},
               ),
             ),
           ),
